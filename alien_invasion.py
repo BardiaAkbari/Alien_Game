@@ -6,6 +6,7 @@ from bullet import Bullet
 from alien import Alien
 from time import sleep
 from game_stat import GameStats
+from button import Button
 
 
 class AlienInvasion:
@@ -32,6 +33,7 @@ class AlienInvasion:
         # Alien
         self.aliens = pygame.sprite.Group()
         self._creat_fleet()
+        self.my_button = Button(self, "Play")
 
     # Main Function
     def run_game(self):
@@ -50,6 +52,8 @@ class AlienInvasion:
         self.my_ship.blitme()
         self._draw_bullets()
         self._draw_aliens()
+        if not self.settings.game_active:
+            self.my_button.draw_button()
         pygame.display.flip()
 
     # Event Functions

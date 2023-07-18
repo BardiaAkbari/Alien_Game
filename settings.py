@@ -24,6 +24,7 @@ class Settings:
         self.drop_speed = 60
         self.fleet_direction = "Right"
         # Game
-        self.game_active = True
+        self.game_active = False
+        
 
 
