@@ -27,7 +27,7 @@ class AlienInvasion:
         self._number_of_bullet_fires = 0
         # Alien
         self.aliens = pygame.sprite.Group()
-        self._creat_alien()
+        self._creat_fleet()
 
     # Main Function
     def run_game(self):
@@ -35,9 +35,17 @@ class AlienInvasion:
         while True:
             self._check_events()
             self.my_ship.update_moving()
-            self.bullets.update()
-            self._delete_not_necessary_bullets()
+            self._update_bullets()
+            self._update_aliens()
             self._update_screen()
+
+    # Screen Functions
+    def _update_screen(self):
+        self.screen.fill(self.settings.back_color)
+        self.my_ship.blitme()
+        self._draw_bullets()
+        self._draw_aliens()
+        pygame.display.flip()
 
     # Event Functions
     def _check_events(self):
@@ -70,14 +78,6 @@ class AlienInvasion:
         if event.key == pygame.K_LEFT:
             self.my_ship.moving_left = False
 
-    # Screen Functions
-    def _update_screen(self):
-        self.screen.fill(self.settings.back_color)
-        self.my_ship.blitme()
-        self._draw_bullets()
-        self._draw_aliens()
-        pygame.display.flip()
-
     # Bullet Functions
     def _fire_bullet(self):
         if self._number_of_bullet_fires < self.settings.number_of_allowed_bullet:
@@ -89,21 +89,52 @@ class AlienInvasion:
         for bullet in self.bullets.sprites():
             bullet.render_bullet()
 
-    def _delete_not_necessary_bullets(self):
+    def _update_bullets(self):
+        self.bullets.update()
         for bullet in self.bullets.copy():
-            if bullet.bullet_rect.bottom < 0:
+            if bullet.rect.bottom < 0:
                 self.bullets.remove(bullet)
+        self._managing_collisions()
 
-    def _creat_alien(self):
+    def _managing_collisions(self):
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+
+    # Alien Functions
+    def _creat_fleet(self):
         alien_sample = Alien(self)
-        alien_width = alien_sample.alien_image_rect.width
-        available_alien_space = self.settings.width - 2 * alien_width
-        number_of_alien_by_x = available_alien_space // (2 * alien_width)
+        alien_width = alien_sample.rect.width
+        alien_height = alien_sample.rect.height
+        available_alien_space_by_x = self.settings.width - 2 * alien_width
+        number_of_alien_by_x = available_alien_space_by_x // (2 * alien_width)
         for alien_num in range(number_of_alien_by_x):
-            my_alien = Alien(self)
-            my_alien.alien_x_position = alien_width + 2 * alien_num * alien_width
-            my_alien.alien_image_rect.x = my_alien.alien_x_position
-            self.aliens.add(my_alien)
+            for column in range(3):
+                my_alien = Alien(self)
+                my_alien.alien_x_position = alien_width + 2 * alien_num * alien_width
+                my_alien.rect.x = my_alien.alien_x_position
+                my_alien.alien_y_position = alien_height + 2 * column * 56
+                my_alien.rect.y = my_alien.alien_y_position
+                self.aliens.add(my_alien)
+
+    def _update_aliens(self):
+        self._check_direction()
+        self.aliens.update()
+
+    def _check_direction(self):
+
+        for alien in self.aliens:
+            if alien.rect.right >= self.screen.get_rect().right:
+                self.settings.fleet_direction = "Left"
+                self._alien_dropping()
+                break
+            if alien.rect.left <= 0:
+                self.settings.fleet_direction = "Right"
+                self._alien_dropping()
+                break
+
+    def _alien_dropping(self):
+
+        for alien in self.aliens:
+            alien.rect.y += self.settings.drop_speed
 
     def _draw_aliens(self):
         for alien in self.aliens:
