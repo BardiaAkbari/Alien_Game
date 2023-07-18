@@ -95,8 +95,15 @@ class AlienInvasion:
                 self.bullets.remove(bullet)
 
     def _creat_alien(self):
-        my_alien = Alien(self)
-        self.aliens.add(my_alien)
+        alien_sample = Alien(self)
+        alien_width = alien_sample.alien_image_rect.width
+        available_alien_space = self.settings.width - 2 * alien_width
+        number_of_alien_by_x = available_alien_space // (2 * alien_width)
+        for alien_num in range(number_of_alien_by_x):
+            my_alien = Alien(self)
+            my_alien.alien_x_position = alien_width + 2 * alien_num * alien_width
+            my_alien.alien_image_rect.x = my_alien.alien_x_position
+            self.aliens.add(my_alien)
 
     def _draw_aliens(self):
         for alien in self.aliens:
