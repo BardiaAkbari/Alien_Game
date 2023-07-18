@@ -15,6 +15,9 @@ class Settings:
         self.bullet_color = (50, 50, 50)
         self.bullet_speed = 1.0
         self.number_of_allowed_bullet = 5
+        # Images
+        self.ship_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Ship1.bmp"
+        self.alien_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Alien.bmp"
 
 
 

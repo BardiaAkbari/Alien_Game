@@ -8,7 +8,8 @@ class Ship:
         # Screen rectangle
         self.game_screen = ai_game.screen
         self.game_screen_rect = ai_game.screen.get_rect()
-        self.ship_image = pygame.image.load("D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Ship1.bmp")
+        self.settings = ai_game.settings
+        self.ship_image = pygame.image.load(self.settings.ship_image)
         self.ship_image_rect = self.ship_image.get_rect()
         # Ship set position
         self.ship_image_rect.midbottom = self.game_screen_rect.midbottom

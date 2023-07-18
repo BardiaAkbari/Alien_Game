@@ -3,6 +3,7 @@ import sys
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 
 class AlienInvasion:
@@ -19,10 +20,16 @@ class AlienInvasion:
         self.settings.height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
         # Attributes adding
+        # Ship
         self.my_ship = Ship(self)
+        # Bullet
         self.bullets = pygame.sprite.Group()
         self._number_of_bullet_fires = 0
+        # Alien
+        self.aliens = pygame.sprite.Group()
+        self._creat_alien()
 
+    # Main Function
     def run_game(self):
 
         while True:
@@ -68,6 +75,7 @@ class AlienInvasion:
         self.screen.fill(self.settings.back_color)
         self.my_ship.blitme()
         self._draw_bullets()
+        self._draw_aliens()
         pygame.display.flip()
 
     # Bullet Functions
@@ -85,6 +93,14 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.bullet_rect.bottom < 0:
                 self.bullets.remove(bullet)
+
+    def _creat_alien(self):
+        my_alien = Alien(self)
+        self.aliens.add(my_alien)
+
+    def _draw_aliens(self):
+        for alien in self.aliens:
+            alien.blit_alien()
 
 
 if __name__ == "__main__":
