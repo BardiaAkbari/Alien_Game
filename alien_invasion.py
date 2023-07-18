@@ -4,6 +4,8 @@ from settings import Settings
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
+from time import sleep
+from game_stat import GameStats
 
 
 class AlienInvasion:
@@ -22,6 +24,8 @@ class AlienInvasion:
         # Attributes adding
         # Ship
         self.my_ship = Ship(self)
+        # Game Stats
+        self.stats = GameStats(self)
         # Bullet
         self.bullets = pygame.sprite.Group()
         self._number_of_bullet_fires = 0
@@ -34,9 +38,10 @@ class AlienInvasion:
 
         while True:
             self._check_events()
-            self.my_ship.update_moving()
-            self._update_bullets()
-            self._update_aliens()
+            if self.settings.game_active:
+                self.my_ship.update_moving()
+                self._update_bullets()
+                self._update_aliens()
             self._update_screen()
 
     # Screen Functions
@@ -69,7 +74,8 @@ class AlienInvasion:
         if event.key == pygame.K_q:
             sys.exit()
         if event.key == pygame.K_SPACE:
-            self._fire_bullet()
+            if self.settings.game_active:
+                self._fire_bullet()
 
     def _keyup_events(self, event):
 
@@ -98,6 +104,10 @@ class AlienInvasion:
 
     def _managing_collisions(self):
         collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        if len(self.aliens) == 0:
+            self._creat_fleet()
+            self.bullets.empty()
+            self._number_of_bullet_fires = 0
 
     # Alien Functions
     def _creat_fleet(self):
@@ -118,6 +128,29 @@ class AlienInvasion:
     def _update_aliens(self):
         self._check_direction()
         self.aliens.update()
+        if pygame.sprite.spritecollideany(self.my_ship, self.aliens):
+            self._reset_game()
+        self._check_alien_pass()
+
+    def _reset_game(self):
+
+        if self.stats.ship_left > 0:
+
+            self.stats.ship_left -= 1
+            self.my_ship.reset_ship()
+            self.bullets.empty()
+            self._number_of_bullet_fires = 0
+            self.aliens.empty()
+            self._creat_fleet()
+            sleep(1.0)
+        else:
+            self.settings.game_active = False
+
+    def _check_alien_pass(self):
+        for alien in self.aliens:
+            if alien.rect.bottom >= self.screen.get_rect().bottom:
+                self._reset_game()
+                break
 
     def _check_direction(self):
 

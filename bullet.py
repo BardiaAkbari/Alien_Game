@@ -10,7 +10,7 @@ class Bullet(Sprite):
         self.settings = ai_game.settings
         self.color = self.settings.bullet_color
         self.rect = pygame.Rect(0, 0, self.settings.bullet_width, self.settings.bullet_height)
-        self.rect.midbottom = ai_game.my_ship.ship_image_rect.midtop
+        self.rect.midbottom = ai_game.my_ship.rect.midtop
         self.billet_y_position = float(self.rect.y)
 
     def update(self):
