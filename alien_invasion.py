@@ -83,7 +83,6 @@ class AlienInvasion:
             self.settings.game_active = True
             self.stats.reset_stat()
             self.my_sb.render_score()
-
             self.aliens.empty()
             self.bullets.empty()
             self._number_of_bullet_fires = 0
@@ -136,7 +135,8 @@ class AlienInvasion:
         if len(collisions) != 0:
             for aliens in collisions.values():
                 self.stats.score += (self.settings.alien_point * len(aliens))
-                self.my_sb.render_score()
+            self.my_sb.render_score()
+            self.my_sb.check_high_score()
         if len(self.aliens) == 0:
             self.settings.speed_up()
             self._creat_fleet()
