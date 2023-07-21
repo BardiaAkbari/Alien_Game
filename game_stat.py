@@ -6,3 +6,4 @@ class GameStats:
 
     def reset_stat(self):
         self.ship_left = self.settings.ship_allowed
+        self.score = 0

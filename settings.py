@@ -22,6 +22,7 @@ class Settings:
         # Game
         self.game_active = False
         self.game_speed_bonus = 1.2
+        self.score_bonus = 1.5
 
         self.dynamic_settings()
 
@@ -32,8 +33,11 @@ class Settings:
         self.bullet_speed = 1.5
         # Alien Settings
         self.alien_speed = 1.0
+        # Alien Points
+        self.alien_point = 50
 
     def speed_up(self):
         self.ship_speed *= self.game_speed_bonus
         self.bullet_speed *= self.game_speed_bonus
         self.alien_speed *= self.game_speed_bonus
+        self.alien_point = int(self.score_bonus * self.alien_point)
