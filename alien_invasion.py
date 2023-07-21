@@ -53,6 +53,7 @@ class AlienInvasion:
         self._draw_bullets()
         self._draw_aliens()
         if not self.settings.game_active:
+            self.screen.fill((55, 55, 55))
             self.my_button.draw_button()
         pygame.display.flip()
 
@@ -67,6 +68,26 @@ class AlienInvasion:
                 self._keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_mose_down_events(mouse_pos)
+
+    # Mouse
+    def _check_mose_down_events(self, mouse_pos):
+        if self.my_button.rect.collidepoint(mouse_pos) and not self.settings.game_active:
+            sleep(0.5)
+            self.settings.dynamic_settings()
+            self.settings.game_active = True
+            self.stats.reset_stat()
+
+            self.aliens.empty()
+            self.bullets.empty()
+            self._number_of_bullet_fires = 0
+
+            self._creat_fleet()
+            self.my_ship.reset_ship()
+
+            pygame.mouse.set_visible(False)
 
     # Key Functions
     def _keydown_events(self, event):
@@ -107,8 +128,9 @@ class AlienInvasion:
         self._managing_collisions()
 
     def _managing_collisions(self):
-        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, True, True)
+        collisions = pygame.sprite.groupcollide(self.bullets, self.aliens, False, True)
         if len(self.aliens) == 0:
+            self.settings.speed_up()
             self._creat_fleet()
             self.bullets.empty()
             self._number_of_bullet_fires = 0
@@ -149,6 +171,8 @@ class AlienInvasion:
             sleep(1.0)
         else:
             self.settings.game_active = False
+
+            pygame.mouse.set_visible(True)
 
     def _check_alien_pass(self):
         for alien in self.aliens:
