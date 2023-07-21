@@ -82,6 +82,7 @@ class AlienInvasion:
             self.settings.dynamic_settings()
             self.settings.game_active = True
             self.stats.reset_stat()
+            self.my_sb.render_game_level()
             self.my_sb.render_score()
             self.aliens.empty()
             self.bullets.empty()
@@ -138,6 +139,8 @@ class AlienInvasion:
             self.my_sb.render_score()
             self.my_sb.check_high_score()
         if len(self.aliens) == 0:
+            self.stats.game_level += 1
+            self.my_sb.render_game_level()
             self.settings.speed_up()
             self._creat_fleet()
             self.bullets.empty()

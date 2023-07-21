@@ -15,6 +15,7 @@ class Scoreboard:
         self.font = pygame.font.SysFont(None, 40)
         self.render_score()
         self.render_high_score()
+        self.render_game_level()
 
     def render_score(self):
         round_score = round(self.stats.score, -1)
@@ -32,9 +33,17 @@ class Scoreboard:
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = 10
 
+    def render_game_level(self):
+        game_level_str = str(self.stats.game_level)
+        self.game_level_image = self.font.render(game_level_str, True, self.txt_color, self.settings.back_color)
+        self.game_level_rect = self.game_level_image.get_rect()
+        self.game_level_rect.left = 10
+        self.game_level_rect.top = 10
+
     def draw_score(self):
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
+        self.screen.blit(self.game_level_image, self.game_level_rect)
 
     def check_high_score(self):
         if self.stats.score > self.stats.high_score:
