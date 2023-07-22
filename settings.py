@@ -16,6 +16,7 @@ class Settings:
         # Images URLs
         self.ship_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Ship1.bmp"
         self.alien_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Alien.bmp"
+        self.heart_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Heart.bmp"
         # Alien Settings
         self.drop_speed = 60
         self.fleet_direction = "Right"

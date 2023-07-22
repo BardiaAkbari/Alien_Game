@@ -37,8 +37,8 @@ class Scoreboard:
         game_level_str = str(self.stats.game_level)
         self.game_level_image = self.font.render(game_level_str, True, self.txt_color, self.settings.back_color)
         self.game_level_rect = self.game_level_image.get_rect()
-        self.game_level_rect.left = 10
-        self.game_level_rect.top = 10
+        self.game_level_rect.right = self.screen_rect.right - 10
+        self.game_level_rect.top = self.score_rect.bottom + 5
 
     def draw_score(self):
         self.screen.blit(self.score_image, self.score_rect)

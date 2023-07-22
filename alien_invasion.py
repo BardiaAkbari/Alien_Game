@@ -8,6 +8,7 @@ from time import sleep
 from game_stat import GameStats
 from button import Button
 from scoreboard import Scoreboard
+from heart import Heart
 
 
 class AlienInvasion:
@@ -36,6 +37,8 @@ class AlienInvasion:
         self.aliens = pygame.sprite.Group()
         self._creat_fleet()
         self.my_button = Button(self, "Play")
+        # Heart
+        self.heart = Heart(self)
 
     # Main Function
     def run_game(self):
@@ -55,6 +58,7 @@ class AlienInvasion:
         self._draw_bullets()
         self._draw_aliens()
         self.my_sb.draw_score()
+        self.heart.draw()
         if not self.settings.game_active:
             self.screen.fill((55, 55, 55))
             self.my_button.draw_button()
@@ -84,6 +88,7 @@ class AlienInvasion:
             self.stats.reset_stat()
             self.my_sb.render_game_level()
             self.my_sb.render_score()
+            self.heart.render_heart(self)
             self.aliens.empty()
             self.bullets.empty()
             self._number_of_bullet_fires = 0
@@ -174,6 +179,7 @@ class AlienInvasion:
         if self.stats.ship_left > 0:
 
             self.stats.ship_left -= 1
+            self.heart.render_heart(self)
             self.my_ship.reset_ship()
             self.bullets.empty()
             self._number_of_bullet_fires = 0
