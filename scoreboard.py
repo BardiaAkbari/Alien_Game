@@ -1,18 +1,22 @@
+import os
+import sys
+
 import pygame.font
+
+os.chdir(sys._MEIPASS)
 
 
 class Scoreboard:
 
     def __init__(self, ai_game):
-
         self.screen = ai_game.screen
         self.screen_rect = self.screen.get_rect()
         self.stats = ai_game.stats
         self.settings = ai_game.settings
 
         self.txt_color = (25, 25, 25)
-
-        self.font = pygame.font.SysFont(None, 40)
+        all_fonts = pygame.font.get_fonts()
+        self.font = pygame.font.SysFont(all_fonts[0], 40)
         self.render_score()
         self.render_high_score()
         self.render_game_level()

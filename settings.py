@@ -12,13 +12,13 @@ class Settings:
         self.bullet_width = 5
         self.bullet_height = 15
         self.bullet_color = (50, 50, 50)
-        self.number_of_allowed_bullet = 40
+        self.number_of_allowed_bullet = 60
         # Images URLs
         self.ship_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Ship1.bmp"
         self.alien_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Alien.bmp"
         self.heart_image = "D:\\Final Projects\\OwnProjects\\Alien_Game\\Image\\Heart.bmp"
         # Alien Settings
-        self.drop_speed = 60
+        self.drop_speed = 30
         self.fleet_direction = "Right"
         # Game
         self.game_active = False

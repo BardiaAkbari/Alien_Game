@@ -1,4 +1,9 @@
+import os
+import sys
+
 import pygame.font
+
+os.chdir(sys._MEIPASS)
 
 
 class Button:
@@ -12,7 +17,8 @@ class Button:
 
         self.button_color = (0 ,255, 0)
         self.txt_color = (0, 0, 0)
-        self.font = pygame.font.SysFont(None, 50)
+        all_fonts = pygame.font.get_fonts()
+        self.font = pygame.font.SysFont(all_fonts[0], 50)
 
         self.rect = pygame.Rect(0, 0, self.width, self.height)
 
